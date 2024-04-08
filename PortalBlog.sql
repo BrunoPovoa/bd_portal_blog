@@ -1,0 +1,44 @@
+\c postgres
+
+DROP DATABASE IF EXISTS portalblog;
+
+CREATE DATABASE portalblog;
+
+\c portalblog;
+
+CREATE TABLE autor (
+    id SERIAL PRIMARY KEY,
+    nome CHARACTER VARYING(100) NOT NULL,
+    email CHARACTER VARYING(100) NOT NULL,
+    senha CHARACTER VARYING(100) NOT NULL
+);
+
+CREATE TABLE post (
+    id SERIAL PRIMARY KEY,
+    titulo CHARACTER VARYING(100) NOT NULL,
+    texto TEXT NOT NULL,
+    data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE post_autor (
+    id_autor INTEGER REFERENCES autor (id),
+    id_post INTEGER REFERENCES post (id),
+    compartilhado BOOLEAN NOT NULL
+);
+
+CREATE TABLE leitor (
+    id SERIAL PRIMARY KEY,
+    nome CHARACTER VARYING(100) NOT NULL,
+    email CHARACTER VARYING(100) NOT NULL,
+    senha CHARACTER VARYING(100) NOT NULL
+);
+
+CREATE TABLE endereco (
+    id SERIAL PRIMARY KEY,
+    bairro CHARACTER VARYING(100),
+    rua CHARACTER VARYING(100),
+    numero CHARACTER VARYING(5),
+    complemento CHARACTER VARYING(100),
+    cep CHARACTER VARYING(8),
+    id_leitor INTEGER REFERENCES leitor (id)
+);
